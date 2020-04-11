@@ -15,7 +15,7 @@ async function run() {
 
     //' /p:DeployOnBuild=true /p:PublishProfile=%cd%\Properties\PublishProfiles\DebugProfile.pubxml JungleServices.csproj'
 
-    exec.exec(msbuild, csproj);
+    await exec.exec(msbuild, csproj);
 
     //core.debug((new Date()).toTimeString());
     //await wait(parseInt(ms));

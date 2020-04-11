@@ -1,22 +1,30 @@
 const core = require('@actions/core');
-const wait = require('./wait');
+const exec = require('@actions/exec');
 
 
 // most @actions toolkit packages have async methods
 async function run() {
   try { 
-    const ms = core.getInput('milliseconds');
-    console.log(`Waiting ${ms} milliseconds ...`)
+    const csproj = core.getInput("csproj");
+    //const pubxml = core.getInput("pubxml");
 
-    core.debug((new Date()).toTimeString())
-    await wait(parseInt(ms));
-    core.debug((new Date()).toTimeString())
+    const msbuild = "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/MSBuild/Current/Bin/MSBuild.exe";
 
-    core.setOutput('time', new Date().toTimeString());
+    console.log(`Building ${csproj} ...`);
+    // if packet .paket\paket restore
+
+    //' /p:DeployOnBuild=true /p:PublishProfile=%cd%\Properties\PublishProfiles\DebugProfile.pubxml JungleServices.csproj'
+
+    exec.exec(msbuild, csproj);
+
+    //core.debug((new Date()).toTimeString());
+    //await wait(parseInt(ms));
+
+    //core.setOutput('time', new Date().toTimeString());
   } 
   catch (error) {
     core.setFailed(error.message);
   }
 }
 
-run()
+run();

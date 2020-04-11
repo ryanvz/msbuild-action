@@ -1,4 +1,4 @@
-const wait = require('./wait');
+const wait = require('./msbuild');
 const process = require('process');
 const cp = require('child_process');
 const path = require('path');
@@ -16,6 +16,7 @@ test('wait 500 ms', async() => {
 });
 
 // shows how the runner will run a javascript action with env / stdout protocol
+// Yeah this shit fails now because lol msbuild
 test('test runs', () => {
     process.env['INPUT_MILLISECONDS'] = 500;
     const ip = path.join(__dirname, 'index.js');

@@ -1,13 +1,15 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Build and Package C# Project'
+description: 'Uses msbuild to build and then package a C# project'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  csproj:
+    description: 'Path to the csproj file to build'
     required: true
-    default: '1000'
+  pubxml:
+    description: 'Path to the pubxml file'
+    required: false
 outputs:
-  time: # output will be available to future steps 
-    description: 'The message to output'
+  package:
+    description: 'The resulting package'
 runs:
   using: 'node12'
   main: 'dist/index.js'

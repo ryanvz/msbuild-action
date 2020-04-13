@@ -1,3 +1,36 @@
+# Hello world javascript action
+
+This action builds a c# project and, optionally, runs a "publish" action.
+## Inputs
+
+All paths are relative to the root of the repo.
+
+### `csproj`
+
+**Required** The path of the `csproj` file to build.
+
+### `pubxml`
+
+The path of the `pubxml` file which describes the publish steps.
+
+outputs:
+  package:
+    description: 'The resulting package'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+
+## Outputs
+
+### `time`
+
+The time we greeted you.
+
+## Example usage
+
+uses: actions/hello-world-javascript-action@v1
+with:
+  who-to-greet: 'Mona the Octocat'
 
 <p align="center">
   <a href="https://github.com/actions/javascript-action/actions"><img alt="javscript-action status" src="https://github.com/actions/javascript-action/workflows/units-test/badge.svg"></a>

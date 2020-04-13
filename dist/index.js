@@ -34,7 +34,7 @@ module.exports =
 /******/ 	// the startup function
 /******/ 	function startup() {
 /******/ 		// Load entry module and return exports
-/******/ 		return __webpack_require__(34);
+/******/ 		return __webpack_require__(625);
 /******/ 	};
 /******/
 /******/ 	// run startup
@@ -42,30 +42,6 @@ module.exports =
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ 34:
-/***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
-
-const core = __webpack_require__(310);
-const msbuild = __webpack_require__(810);
-
-async function run() {
-  try { 
-    const csproj = core.getInput("csproj");
-    const pubxml = core.getInput("pubxml");
-
-    console.log(`Building ${csproj} ...`);   
-    await msbuild(csproj, pubxml);
-    //core.setOutput('package', new Date().toTimeString());
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run();
-
-/***/ }),
 
 /***/ 87:
 /***/ (function(module) {
@@ -1144,79 +1120,93 @@ module.exports = require("assert");
 
 /***/ }),
 
-/***/ 614:
-/***/ (function(module) {
+/***/ 485:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
-module.exports = require("events");
+"use strict";
 
-/***/ }),
-
-/***/ 622:
-/***/ (function(module) {
-
-module.exports = require("path");
-
-/***/ }),
-
-/***/ 669:
-/***/ (function(module) {
-
-module.exports = require("util");
-
-/***/ }),
-
-/***/ 747:
-/***/ (function(module) {
-
-module.exports = require("fs");
-
-/***/ }),
-
-/***/ 810:
-/***/ (function(module, __unusedexports, __webpack_require__) {
-
-const exec = __webpack_require__(230);
-
-const msbuildPath = '"C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/MSBuild/Current/Bin/MSBuild.exe"';
-const packageRegex = /(?<=Packaging into )(.*)(?=.)/;
- // if packet .paket\paket restore
-
-let msbuild = async function(csproj, pubxml) {
-  var args = [];
-  var pwd = "";
-  if(pubxml) {
-    await exec.exec('cmd', ['/C', 'cd'], {
-      listeners: {
-        stdout: (data) => {
-          pwd += data.toString();
-        }
-      }
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
-    args.push(
-      '/p:DeployOnBuild=true',
-     // `/p:PublishProfile=${pubxmlPath}`
-      `/p:PublishProfile=${pwd.trim()}/${pubxml}`
-    );
-  }
-  args.push(csproj)
-
-  let options = {
-    listeners: {
-      stdout: (data) => {
-        var match = data.toString().match(packageRegex);
-        if(match) {
-          console.log(`Found package at ${match}`)
-        }
-      }
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
-  };
-  return exec.exec(msbuildPath, args, options);
-}
-
-module.exports = msbuild;
-
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var exec_1 = __webpack_require__(230);
+var msbuildPath = '"C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/MSBuild/Current/Bin/MSBuild.exe"';
+var packageRegex = /(?<=Packaging into )(.*)(?=.)/;
+// if packet .paket\paket restore
+var MSBuild = /** @class */ (function () {
+    function MSBuild(csproj, pubxml) {
+        this.csproj = csproj;
+        this.pubxml = pubxml;
+        this._artifact = "";
+        this.csproj = csproj;
+        this.pubxml = pubxml;
+    }
+    Object.defineProperty(MSBuild.prototype, "artifact", {
+        get: function () { return this._artifact; },
+        enumerable: true,
+        configurable: true
+    });
+    MSBuild.prototype.build = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var args, options;
+            var _this = this;
+            return __generator(this, function (_a) {
+                args = [];
+                if (this.pubxml) {
+                    args.push('/p:DeployOnBuild=true', "/p:PublishProfile=" + process.cwd() + "/" + this.pubxml);
+                }
+                args.push(this.csproj);
+                options = {
+                    listeners: {
+                        stdout: function (data) {
+                            var match = data.toString().match(packageRegex);
+                            if (match) {
+                                console.log("Found package at [[" + match + "]]");
+                                _this._artifact = match.toString();
+                            }
+                        }
+                    }
+                };
+                return [2 /*return*/, exec_1.exec(msbuildPath, args, options)];
+            });
+        });
+    };
+    return MSBuild;
+}());
+exports.MSBuild = MSBuild;
 /*
-
 PackageUsingManifest:
   Packaging into C:\Users\ryan\source\msbuild_test\msbuild_test\output\site.zip.
   Starting Web deployment task from source: manifest(C:\Users\ryan\source\msbuild_test\msbuild_test\output\site.SourceM
@@ -1246,7 +1236,116 @@ GenerateSampleDeployScript:
   C:\Users\ryan\source\msbuild_test\msbuild_test\output\site.SetParameters.xml
 PipelineDeployPhase:
 
-*/
+*/ 
+
+
+/***/ }),
+
+/***/ 614:
+/***/ (function(module) {
+
+module.exports = require("events");
+
+/***/ }),
+
+/***/ 622:
+/***/ (function(module) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 625:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core = __importStar(__webpack_require__(310));
+var msbuild_1 = __webpack_require__(485);
+function run() {
+    return __awaiter(this, void 0, void 0, function () {
+        var csproj, pubxml, builder, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    csproj = core.getInput("csproj");
+                    pubxml = core.getInput("pubxml");
+                    builder = new msbuild_1.MSBuild(csproj, pubxml);
+                    console.log("Building " + csproj + " ...");
+                    return [4 /*yield*/, builder.build()];
+                case 1:
+                    _a.sent();
+                    core.setOutput('package', builder.artifact);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_1 = _a.sent();
+                    core.setFailed(error_1.message);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+run();
+
+
+/***/ }),
+
+/***/ 669:
+/***/ (function(module) {
+
+module.exports = require("util");
+
+/***/ }),
+
+/***/ 747:
+/***/ (function(module) {
+
+module.exports = require("fs");
 
 /***/ }),
 

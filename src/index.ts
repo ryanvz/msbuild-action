@@ -9,7 +9,7 @@ async function run() {
     console.log(`Building ${csproj} ...`);
     await builder.build();
     core.setOutput('package', builder.artifact);
-  } 
+  }
   catch (error) {
     core.setFailed(error.message);
   }

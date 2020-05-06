@@ -2,15 +2,11 @@
   "name": "javascript-action",
   "version": "1.0.0",
   "description": "JavaScript Action Template",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "lint": "eslint index.js",
-    "package": "ncc build index.js -o dist",
-    "test": "eslint index.js && jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/actions/javascript-action.git"
+    "lint": "eslint \"src/*.{js,ts}\" --quiet --fix",
+    "package": "./node_modules/.bin/ncc build index.ts -o dist",
+    "test": "jest"
   },
   "keywords": [
     "GitHub",
@@ -26,11 +22,16 @@
   "dependencies": {
     "@actions/core": "^1.2.3",
     "@actions/exec": "^1.0.3",
-    "@types/node": "^13.11.1"
+    "@types/node": "^13.11.1",
+    "shelljs": "^0.8.4"
   },
   "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "@typescript-eslint/parser": "^2.29.0",
     "@zeit/ncc": "^0.20.5",
     "eslint": "^6.8.0",
-    "jest": "^24.9.0"
+    "jest": "^26.0.0",
+    "ts-jest": "^25.4.0",
+    "typescript": "^3.8.3"
   }
 }

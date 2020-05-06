@@ -63,3 +63,8 @@ typings/
 
 # next.js build output
 .next
+
+# test project build artifacts
+bin/
+obj/
+.vs/

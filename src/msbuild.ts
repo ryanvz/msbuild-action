@@ -31,7 +31,6 @@ export class MSBuild {
         stdout: (data: Buffer) => {
           var match = data.toString().match(packageRegex);
           if (match) {
-            console.log(`Found package at [[${match}]]`)
             this._artifact = match[0];
           }
         }

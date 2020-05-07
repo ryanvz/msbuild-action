@@ -10,6 +10,7 @@ export class MSBuild {
 
   get artifact(): string { return this._artifact; }
   get root(): string { return path.resolve(this.csproj, '..') }
+  get pubxmlPath(): string { return `${this.root}/Properties/PublishProfiles/${this.pubxml}.pubxml`}
 
   constructor(readonly csproj: string, readonly pubxml?: string) {
     this.csproj = csproj;
@@ -21,7 +22,7 @@ export class MSBuild {
     if (this.pubxml) {
       args.push(
         '/p:DeployOnBuild=true',
-        `/p:PublishProfile=${this.root}/${this.pubxml}`
+        `/p:PublishProfile=${this.pubxmlPath}`
       );
     }
     args.push(this.csproj);

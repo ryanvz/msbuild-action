@@ -34,8 +34,8 @@ module.exports =
 /******/ 	// the startup function
 /******/ 	function startup() {
 /******/ 		// Load entry module and return exports
-/******/ 		return __webpack_require__(731);
-/******/ 	}
+/******/ 		return __webpack_require__(325);
+/******/ 	};
 /******/
 /******/ 	// run startup
 /******/ 	return startup();
@@ -948,16 +948,17 @@ module.exports = require("child_process");
 
 /***/ }),
 
-/***/ 147:
+/***/ 325:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -988,83 +989,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var exec_1 = __webpack_require__(986);
-var msbuildPath = '"C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/MSBuild/Current/Bin/MSBuild.exe"';
-var packageRegex = /(?<=Packaging into )(.*)(?=.)/;
-// if packet .paket\paket restore
-var MSBuild = /** @class */ (function () {
-    function MSBuild(csproj, pubxml) {
-        this.csproj = csproj;
-        this.pubxml = pubxml;
-        this._artifact = "";
-        this.csproj = csproj;
-        this.pubxml = pubxml;
-    }
-    Object.defineProperty(MSBuild.prototype, "artifact", {
-        get: function () { return this._artifact; },
-        enumerable: true,
-        configurable: true
-    });
-    MSBuild.prototype.build = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var args, options;
-            var _this = this;
-            return __generator(this, function (_a) {
-                args = [];
-                if (this.pubxml) {
-                    args.push('/p:DeployOnBuild=true', "/p:PublishProfile=" + process.cwd() + "/" + this.pubxml);
-                }
-                args.push(this.csproj);
-                options = {
-                    listeners: {
-                        stdout: function (data) {
-                            var match = data.toString().match(packageRegex);
-                            if (match) {
-                                console.log("Found package at [[" + match + "]]");
-                                _this._artifact = match.toString();
-                            }
-                        }
-                    }
-                };
-                return [2 /*return*/, exec_1.exec(msbuildPath, args, options)];
-            });
+var core = __importStar(__webpack_require__(470));
+var msbuild_1 = __webpack_require__(709);
+function run() {
+    return __awaiter(this, void 0, void 0, function () {
+        var csproj, pubxml, builder, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    csproj = core.getInput("csproj");
+                    pubxml = core.getInput("pubxml");
+                    builder = new msbuild_1.MSBuild(csproj, pubxml);
+                    console.log("Building " + csproj + " ...");
+                    return [4 /*yield*/, builder.build()];
+                case 1:
+                    _a.sent();
+                    core.setOutput('package', builder.artifact);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_1 = _a.sent();
+                    core.setFailed(error_1.message);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
         });
-    };
-    return MSBuild;
-}());
-exports.MSBuild = MSBuild;
-/*
-PackageUsingManifest:
-  Packaging into C:\Users\ryan\source\msbuild_test\msbuild_test\output\site.zip.
-  Starting Web deployment task from source: manifest(C:\Users\ryan\source\msbuild_test\msbuild_test\output\site.SourceM
-  anifest.xml) to Destination: package(C:\Users\ryan\source\msbuild_test\msbuild_test\output\site.zip).
-  Adding sitemanifest (sitemanifest).
-  Adding IIS Application (C:\Users\ryan\source\msbuild_test\msbuild_test\obj\Debug\Package\PackageTmp)
-  Creating application (C:\Users\ryan\source\msbuild_test\msbuild_test\obj\Debug\Package\PackageTmp)
-  Adding virtual path (C:\Users\ryan\source\msbuild_test\msbuild_test\obj\Debug\Package\PackageTmp)
-  Adding directory (C:\Users\ryan\source\msbuild_test\msbuild_test\obj\Debug\Package\PackageTmp).
-  Adding directory (C:\Users\ryan\source\msbuild_test\msbuild_test\obj\Debug\Package\PackageTmp\bin).
-  Adding file (C:\Users\ryan\source\msbuild_test\msbuild_test\obj\Debug\Package\PackageTmp\bin\msbuild_test.dll).
-  Adding file (C:\Users\ryan\source\msbuild_test\msbuild_test\obj\Debug\Package\PackageTmp\bin\msbuild_test.pdb).
-  Adding file (C:\Users\ryan\source\msbuild_test\msbuild_test\obj\Debug\Package\PackageTmp\Global.asax).
-  Adding file (C:\Users\ryan\source\msbuild_test\msbuild_test\obj\Debug\Package\PackageTmp\Web.config).
-  Adding ACLs for path (C:\Users\ryan\source\msbuild_test\msbuild_test\obj\Debug\Package\PackageTmp)
-  Adding ACLs for path (C:\Users\ryan\source\msbuild_test\msbuild_test\obj\Debug\Package\PackageTmp)
-  Adding declared parameter 'IIS Web Application Name'.
-  Successfully executed Web deployment task.
-  Package "site.zip" is successfully created as single file at the following location:
-  file:///C:/Users/ryan/source/msbuild_test/msbuild_test/output
-  To get the instructions on how to deploy the web package please visit the following link:
-  https://go.microsoft.com/fwlink/?LinkId=124618
-GenerateSampleDeployScript:
-  Sample script for deploying this package is generated at the following location:
-  C:\Users\ryan\source\msbuild_test\msbuild_test\output\site.deploy.cmd
-  For this sample script, you can change the deploy parameters by changing the following file:
-  C:\Users\ryan\source\msbuild_test\msbuild_test\output\site.SetParameters.xml
-PipelineDeployPhase:
-
-*/ 
+    });
+}
+run();
 
 
 /***/ }),
@@ -1600,16 +1560,17 @@ function isUnixExecutable(stats) {
 
 /***/ }),
 
-/***/ 731:
+/***/ 709:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -1640,42 +1601,65 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core = __importStar(__webpack_require__(470));
-var msbuild_1 = __webpack_require__(147);
-function run() {
-    return __awaiter(this, void 0, void 0, function () {
-        var csproj, pubxml, builder, error_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    csproj = core.getInput("csproj");
-                    pubxml = core.getInput("pubxml");
-                    builder = new msbuild_1.MSBuild(csproj, pubxml);
-                    console.log("Building " + csproj + " ...");
-                    return [4 /*yield*/, builder.build()];
-                case 1:
-                    _a.sent();
-                    core.setOutput('package', builder.artifact);
-                    return [3 /*break*/, 3];
-                case 2:
-                    error_1 = _a.sent();
-                    core.setFailed(error_1.message);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
+var exec_1 = __webpack_require__(986);
+var child_process_1 = __webpack_require__(129);
+var path_1 = __importDefault(__webpack_require__(622));
+var msbuildPath = '"' + child_process_1.execSync('vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe').toString().trim() + '"';
+var packageRegex = /(?<=Packaging into )(.*)(?=.)/;
+var MSBuild = /** @class */ (function () {
+    function MSBuild(csproj, pubxml) {
+        this.csproj = csproj;
+        this.pubxml = pubxml;
+        this._artifact = "";
+        this.csproj = csproj;
+        this.pubxml = pubxml;
+    }
+    Object.defineProperty(MSBuild.prototype, "artifact", {
+        get: function () { return this._artifact; },
+        enumerable: true,
+        configurable: true
     });
-}
-run();
+    Object.defineProperty(MSBuild.prototype, "root", {
+        get: function () { return path_1.default.resolve(this.csproj, '..'); },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MSBuild.prototype, "pubxmlPath", {
+        get: function () { return this.root + "/Properties/PublishProfiles/" + this.pubxml + ".pubxml"; },
+        enumerable: true,
+        configurable: true
+    });
+    MSBuild.prototype.build = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var args, options;
+            var _this = this;
+            return __generator(this, function (_a) {
+                args = [];
+                if (this.pubxml) {
+                    args.push('/p:DeployOnBuild=true', "/p:PublishProfile=" + this.pubxmlPath);
+                }
+                args.push(this.csproj);
+                options = {
+                    listeners: {
+                        stdout: function (data) {
+                            var match = data.toString().match(packageRegex);
+                            if (match) {
+                                _this._artifact = match[0];
+                            }
+                        }
+                    }
+                };
+                return [2 /*return*/, exec_1.exec(msbuildPath, args, options)];
+            });
+        });
+    };
+    return MSBuild;
+}());
+exports.MSBuild = MSBuild;
 
 
 /***/ }),

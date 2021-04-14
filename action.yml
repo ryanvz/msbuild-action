@@ -1,18 +1,26 @@
-name: 'Build and Package C# Project'
-description: 'Uses msbuild to build and then package a C# project'
+name: 'Build Project'
+description: 'Build a csproj file with pubxml settings'
 inputs:
   csproj:
-    description: 'Path to the csproj file to build'
+    description: 'Relative path to the csproj file to build'
     required: true
   pubxml:
-    description: 'Path to the pubxml file'
+    description: 'Relative path to the pubxml file'
+    required: true
+  configuration:
+    description: 'Debug (default) or Release'
     required: false
+    default: 'Debug'
 outputs:
   package:
     description: 'The resulting package'
+    value: ${{ steps.msbuild.outputs.package-path }}
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
-branding:
-  icon: meh
-  color: purple
+  using: "composite"
+  steps:
+    - name: Paket Restore
+      run: .paket\paket restore
+      shell: pwsh
+    - id: msbuild
+      run: ${{ github.action_path }}/build.ps1 -Csproj ${{ inputs.csproj }} -PublishProfile ${{ inputs.pubxml }} -Configuration ${{ inputs.configuration }}
+      shell: pwsh
